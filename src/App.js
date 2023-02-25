@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Hello from './Hello';
+import Wrapper from './Wrapper';
 
 function App() {
   const name='react'
@@ -11,12 +12,10 @@ function App() {
     padding:'1rem'
   }
   return (
-    <>
-      <Hello/>
-      <div style={style}>{name}</div>
-      <div className='gray-box'></div>
-    </>
-
+    <Wrapper>
+      <Hello name='React' color='red'/>
+      <Hello  color='pink'/>
+    </Wrapper>
   );
 }
 
