@@ -21,19 +21,32 @@ function App() {
       [name]:value
     });
   };
+  const onRemove=id=>{
+    setUsers(users.filter(user=>user.id!==id));
+  };
+  const onToggle=id=>{
+    setUsers(
+      users.map(user=>
+        user.id === id ?{...user, active:!user.active }:user
+      )
+    );
+  };
   const [users,setUsers]=useState([
     {
         id:1,
         username:'민혁',
-        email:'dnfldpden32@gmail.com'
+        email:'dnfldpden32@gmail.com',
+        active:true
     },{
         id:2,
         username:'민찬',
-        email:'fdjslfjds@naver.com'
+        email:'fdjslfjds@naver.com',
+        active:false
     },{
         id:3,
         username:'성훈',
-        email:'fdsfjdsljl@icloud.com'
+        email:'fdsfjdsljl@icloud.com',
+        active:false
     }
   ]);
   const nextId=useRef(4);
@@ -58,7 +71,7 @@ function App() {
         email={email}
         onChange={onChange}
         onCreate={onCreate}/>
-      <UserList users={users}/>
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
     </>
 
   );
