@@ -8,6 +8,11 @@ import UserList from './UserList'
 import { useRef, useState } from 'react';
 import CreateUser from './CreateUser';
 
+function countActiveUsers(users) {
+  console.log('활성 사용자 수를 세는중...');
+  return users.filter(user=>user.active).length;
+}
+
 function App() {
   const [inputs,setInputs]=useState({
     username:'',
