@@ -5,7 +5,7 @@ import Wrapper from './Wrapper';
 import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './UserList'
-import { useRef, useState ,useMemo} from 'react';
+import { useRef, useState ,useMemo, useCallback} from 'react';
 import CreateUser from './CreateUser';
 
 function countActiveUsers(users) {
@@ -19,23 +19,14 @@ function App() {
     email:''
   });
   const {username,email}=inputs;
-  const onChange=e=>{
+  const onChange= useCallback(
+  e=>{
     const {name,value}=e.target;
     setInputs({
       ...inputs,
       [name]:value
     });
-  };
-  const onRemove=id=>{
-    setUsers(users.filter(user=>user.id!==id));
-  };
-  const onToggle=id=>{
-    setUsers(
-      users.map(user=>
-        user.id === id ?{...user, active:!user.active }:user
-      )
-    );
-  };
+  },[inputs]);
   const [users,setUsers]=useState([
     {
         id:1,
@@ -55,7 +46,7 @@ function App() {
     }
   ]);
   const nextId=useRef(4);
-  const onCreate=()=>{
+  const onCreate=useCallback(()=>{
     const user={
       id:nextId.current,
       username,
@@ -68,7 +59,17 @@ function App() {
       email:''
     });
     nextId.current+=1;
-  }
+  },[users,username,email]);
+  const onRemove=useCallback( id=>{
+    setUsers(users.filter(user=>user.id!==id));
+  },[users]);
+  const onToggle=useCallback(id=>{
+    setUsers(
+      users.map(user=>
+        user.id === id ?{...user, active:!user.active }:user
+      )
+    );
+  },[users]);
   //활성화 유저 찾기 
   const count=useMemo(()=>countActiveUsers(users),[users]);
   return (
