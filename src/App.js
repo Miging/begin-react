@@ -5,7 +5,7 @@ import Wrapper from './Wrapper';
 import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './UserList'
-import { useRef, useState } from 'react';
+import { useRef, useState ,useMemo} from 'react';
 import CreateUser from './CreateUser';
 
 function countActiveUsers(users) {
@@ -69,6 +69,8 @@ function App() {
     });
     nextId.current+=1;
   }
+  //활성화 유저 찾기 
+  const count=useMemo(()=>countActiveUsers(users),[users]);
   return (
     <>
       <CreateUser
@@ -77,6 +79,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}/>
       <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
+      <div>활성 사용자 수 : {count}</div>
     </>
 
   );
